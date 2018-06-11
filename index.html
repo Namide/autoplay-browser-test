@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Autoplay browser test</title>
+    <meta name="description" content="Test if browser autoplay enabled or disabled">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Damien Doussaud (namide.com)">
+</head>
+<body>
+
+    <h1>Autoplay browser test</h1>
+
+    <h2>Video tests results</h2>
+
+    <p>Test if browser autoplay enabled or disabled</p>
+    <ul>
+        <li>Autoplay mutted video: <strong id="mutedResult">Loading...</strong></li>
+        <li>Autoplay unmutted video: <strong id="unmutedResult">Loading...</strong></li>
+        <li>Test bad video path: <strong id="errorResult">Loading...</strong></li>
+    </ul>
+
+    <h2>Videos tests displays</h2>
+
+    <h2>Arguments: playsinline muted</h2>
+    <video width="400" height="222" loop="true" autoplay="true" playsinline="true" muted="true" src="BigBuckBunny_320x180.mp4"></video>
+
+    <h2>Arguments: playsinline</h2>
+    <video width="400" height="222" loop="true" autoplay="true" playsinline="true" src="BigBuckBunny_320x180.mp4"></video>
+
+    <h2>Arguments: muted</h2>
+    <video width="400" height="222" loop="true" autoplay="true" muted="true" src="BigBuckBunny_320x180.mp4"></video>
+
+    <h2>Arguments: no</h2>
+    <video width="400" height="222" loop="true" autoplay="true" src="BigBuckBunny_320x180.mp4"></video>
+
+
+    <h2>Information</h2>
+
+    <p>
+        Chrome Media Engagement (only on Chrome browser): <code>chrome://media-engagement/</code>
+    </p>
+
+    <p>
+        Video credits: <a href="https://peach.blender.org/">Big Buck Bunny</a>
+    </p>
+
+
+    <script src="script.js"></script>
+    <script>
+
+        /**
+         * Display result
+         */
+        const display = (selector, message) => {
+            document.body.querySelector(selector).innerHTML = message
+        }
+        
+        /**
+         * Test if video error catched
+         */
+        window.autoplaySupport('pathError.mp4', true)
+            .then(isSupported => display('#errorResult', isSupported ? 'Allowed' : 'Not allowed'))
+            .catch(message => display('#errorResult', message))
+
+        /**
+         * Test if muted autoplay allowed
+         */
+        window.autoplaySupport('BigBuckBunny_320x180.mp4', true)
+            .then(isSupported => display('#mutedResult', isSupported ? 'Allowed' : 'Not allowed'))
+            .catch(message => display('#mutedResult', message))
+        
+        /**
+         * Test if unmuted autoplay allowed
+         */
+        window.autoplaySupport('BigBuckBunny_320x180.mp4', false)
+            .then(isSupported => display('#unmutedResult', isSupported ? 'Allowed' : 'Not allowed'))
+            .catch(message => display('#unmutedResult', message))
+
+    </script>
+
+</body>
+</html>
